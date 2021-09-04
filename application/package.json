@@ -6,9 +6,11 @@
   "scripts": {
     "test": "jest test --watch",
     "build": "babel src --out-dir build",
-    "start": "nodemon --exec babel-node src/server.js",
+    "prestart": "npm run start:services && npm run build",
+    "start": "node ./build/server.js",
     "prestart:dev": "npm run start:services ",
     "start:dev": "nodemon --exec babel-node src/server.js",
+    "start:services": "docker-compose up --build -d",
     "lint": "eslint \"src/**/*.js\""
   },
   "devDependencies": {
