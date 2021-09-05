@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "vaccineCenterId": "D3",
+      "timseSlotId": 1,
+      "date": "2021-09-07 00:00:00",
+      "count": 10,
+      "bookedCount": 1
+    },
+    {
+        "id": 4,
+        "vaccineCenterId": "D3",
+        "timseSlotId": 1,
+        "date": "2021-09-14 00:00:00",
+        "count": 20,
+        "bookedCount": 23
+      }
+]

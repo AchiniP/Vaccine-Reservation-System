@@ -33,7 +33,11 @@ const sequelize = new Sequelize(DB_SCHEMA, DB_USER, DB_PW, {
 
 
 const modelDefiners = [
-  require('../model/VaccineCenter.model')
+  require('../model/VaccineCenter.model'),
+  require('../model/Timeslot.model'),
+  require('../model/VaccineCenterAvailability.model'),
+  require('../model/UserVaccineStatus.model'),
+
 ];
 
 // We define all models according to their files.

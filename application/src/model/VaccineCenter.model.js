@@ -4,13 +4,13 @@ import { CLASS_NAMES } from '../const/globalConstant';
 
 module.exports = (sequelize) => {
   sequelize.define(CLASS_NAMES.VACCINE_CENTER, {
-    vaccineCenterId: {
+    id: {
       allowNull: false,
       autoIncrement: false,
       primaryKey: true,
       type: DataTypes.STRING
     },
-    vaccineCenterName: {
+    name: {
       allowNull: false,
       type: DataTypes.STRING,
     },

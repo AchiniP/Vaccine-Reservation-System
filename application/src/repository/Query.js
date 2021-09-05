@@ -1,0 +1,1 @@
+export const FETCH_VACCINE_CENTER_AVAILABILITY = `select vca.*, count(uv.nic) as bookedCount from vaccine_center_availability vca left join user_vaccine_status uv on uv.vaccineSlotId = vca.id where vca.vaccineCenterId = :vaccineCenterId and vca.date > CURDATE() group by vca.id;`;
