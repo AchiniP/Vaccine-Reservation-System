@@ -103,4 +103,4 @@ http://localhost:8000/api-docs/
 
 ## FrontEnd GitHub Link
 
-https://github.com/AchiniP/Vaccine-Reservation-UI
+https://github.com/AchiniP/Vaccine-Reservation-UI/tree/master
