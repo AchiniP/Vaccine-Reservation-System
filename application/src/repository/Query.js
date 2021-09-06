@@ -1,0 +1,3 @@
+export const FETCH_VACCINE_CENTER_AVAILABILITY = `select vca.*, count(uv.nic) as bookedCount from vaccine_center_availability vca left join user_vaccine_status uv on uv.vaccineSlotId = vca.id where vca.vaccineCenterId = :vaccineCenterId and vca.date > CURDATE() group by vca.id;`;
+export const FETCH_USER_VACCINE_DETAILS = `select vu.*, vca.date from user_vaccine_status vu INNER JOIN vaccine_center_availability vca on vu.vaccineSlotId = vca.id where nic = :nic;`;
+export const FETCH_VACCINE_CENTER_DATA_BY_AVAILABILITY_ID = `select vca.*, count(uv.nic) as bookedCount from vaccine_center_availability vca left join user_vaccine_status uv on uv.vaccineSlotId = vca.id where vca.id = :availabilityId and vca.date > CURDATE() group by vca.id;`
