@@ -24,6 +24,9 @@ module.exports = (sequelize) => {
     status: {
       type: DataTypes.ENUM('PENDING', 'COMPLETED'),
     },
+    selectedDate: {
+      type: DataTypes.DATE
+    }
   }, {
     indexes: [
       {

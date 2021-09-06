@@ -16,6 +16,7 @@ const FETCH_USER_VACCINE_STATUS_SCHEMA = Joi.object().keys({
 export const USER_VACCINE_RESERVATION_SCHEMA = Joi.object().keys({
   vaccineSlotId: Joi.number().positive().required(true),
   status: Joi.string().valid('PENDING'),
+  date: Joi.date().required()
 });
 
 const REMOVE_USER_VACCINE_STATUS_SCHEMA = Joi.object().keys({
@@ -35,9 +36,9 @@ const getUserVaccineStatusHandler = async (req, res, next) => {
 
 const saveUserVaccineStatus = async (req, res, next) => {
   const { userId } = req.params;
-  const { vaccineSlotId, status} = req.body;
+  const { vaccineSlotId, status, date } = req.body;
   LOG.info(`[ROUTER][USER]: request recieved for save user vaccine status: ${userId} - vaccineSlot: ${vaccineSlotId} - status: ${status}`);
-  return UserVaccineStatusService.saveUserVaccinseStatusByUserId(userId, vaccineSlotId, status)
+  return UserVaccineStatusService.saveUserVaccinseStatusByUserId(userId, vaccineSlotId, status, date)
     .then(result => res.status(StatusCodes.CREATED).send(result))
     .catch(error => {
       LOG.error(`[ROUTER][ADMIN]: error occurred while saving data: ${error.message}`);
@@ -57,12 +58,27 @@ const cancelUserVaccine = async (req, res, next) => {
     })
 }
 
+const updateUserVaccineStatus = async (req, res, next) => {
+  const { userId } = req.params;
+  const { vaccineSlotId, status, date } = req.body;
+  LOG.info(`[ROUTER][USER]: request recieved for update user vaccine status: ${userId} - vaccineSlot: ${vaccineSlotId} - status: ${status}`);
+  const isUpdate = true;
+  return UserVaccineStatusService.saveUserVaccinseStatusByUserId(userId, vaccineSlotId, status, date, isUpdate)
+    .then(result => res.status(StatusCodes.OK).send(result))
+    .catch(error => {
+      LOG.error(`[ROUTER][ADMIN]: error occurred while updating data: ${error.message}`);
+      return next(error)
+    })
+}
+
 
 UserVaccineStatusController.get('/:userId/vaccineStatus', validator.params(FETCH_USER_VACCINE_STATUS_SCHEMA), getUserVaccineStatusHandler);
 
 UserVaccineStatusController.post('/:userId/vaccineStatus', validator.body(USER_VACCINE_RESERVATION_SCHEMA), saveUserVaccineStatus);
 
 UserVaccineStatusController.delete('/:userId/vaccineStatus', validator.query(REMOVE_USER_VACCINE_STATUS_SCHEMA), cancelUserVaccine);
+
+UserVaccineStatusController.put('/:userId/vaccineStatus', validator.body(USER_VACCINE_RESERVATION_SCHEMA), updateUserVaccineStatus);
 
   
 export default UserVaccineStatusController;

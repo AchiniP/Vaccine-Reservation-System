@@ -44,12 +44,39 @@ const swaggerDocs = {
           '200': {
             'description': 'OK',
             'schema': {
-              '$ref': '#/definitions/Users'
+              '$ref': '#/definitions/UserVaccineStatusList'
             }
           }
         }
       },
       'post': {
+        'tags': [
+          'Users'
+        ], 
+        'parameters': [
+          {
+            'name': 'vaccine status',
+            'in': 'body',
+            'description': 'User vaccine status Object',
+            'schema': {
+              '$ref': '#/definitions/UserVaccineStatus'
+            }
+          }
+        ],
+        'produces': [
+          'application/json'
+        ], 
+        'summary': 'Save User Vaccine status',
+        'responses': {
+          '201': {
+            'description': 'CREATED',
+            'schema': {
+              '$ref': '#/definitions/Users'
+            }
+          }
+        }
+      },
+      'put': {
         'tags': [
           'Users'
         ], 
@@ -141,6 +168,31 @@ const swaggerDocs = {
         }
       }
     },
+    '/vaccineCenter/availability/{id}': {
+        'parameters': [
+            {
+              'name': 'id',
+              'in': 'path',
+              'required': true,
+              'description': 'Vaccine center availability id',
+              'type': 'integer'
+            }
+          ],
+      'get': {
+        'tags': [
+          'VaccinationCenter'
+        ],  
+        'summary': 'Get  Vaccine center availability by id',
+        'responses': {
+          '200': {
+            'description': 'OK',
+            'schema': {
+              '$ref': '#/definitions/VaccineCenterAvailabilityList'
+            }
+          }
+        }
+      }
+    },
     '/upload/vaccineCenter': {
       'post': {
         'tags': [
@@ -213,6 +265,33 @@ const swaggerDocs = {
       'type': 'array',
       '$ref': '#/definitions/User'
     },
+    'UserVaccineBooking': {
+      'required': ['id', 'nic', 'vaccineSlotId', 'status'],
+      'properties': {
+        'id': {
+          'type': 'integer',
+          'uniqueItems': true
+        },
+        'nic': {
+          'type': 'string',
+          'uniqueItems': true
+        },
+        'vaccineSlotId': {
+          'type': 'integer',
+          'uniqueItems': true
+        },
+        'status': {
+          'type': 'string',
+        },
+        'selectedDate': {
+          'type': 'date',
+        },
+      }
+    },
+    'UserVaccineStatusList': {
+      'type': 'array',
+      '$ref': '#/definitions/UserVaccineBooking'
+    },
     'VaccineCenter': {
       'required': ['id', 'name'],
       'properties': {
@@ -240,11 +319,14 @@ const swaggerDocs = {
         'status': {
           'type': 'string',
           'enum': ['PENDING']
-        }
+        },
+        'date': {
+          'type': 'date',
+        },
       } 
     },
     'VaccineCenterAvailabilityRecord': {
-      'required': ['timseSlotId', 'validFrom', 'validTo', 'currentCount', 'maxCount' ],
+      'required': ['timseSlotName', 'validFrom', 'validTo', 'currentCount', 'maxCount', 'vaccineSlotAvailabilityId' ],
       'properties': {
         'timseSlotId': {
           'type': 'integer',
@@ -260,13 +342,19 @@ const swaggerDocs = {
         },
         'maxCount': {
           'type': 'integer',
+        },
+        'timseSlotName': {
+          'type': 'string',
+        },
+        'vaccineSlotAvailabilityId': {
+          'type': 'integer',
         }
       } 
     },
     'VaccineCenterAvailabilityList': {
-        'type': 'array',
-        '$ref': '#/definitions/VaccineCenterAvailabilityRecord'
-      },
+      'type': 'array',
+      '$ref': '#/definitions/VaccineCenterAvailabilityRecord'
+    },
 
   }
 

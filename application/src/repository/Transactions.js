@@ -5,7 +5,7 @@ import Logger from '../config/logger';
 import ErrorMiddleware from '../middleware/ErrorMiddleware';
 import ErrorCodes from '../const/ErrorCodes';
 import ErrorMessages from '../const/ErrorMessages';
-import { FETCH_VACCINE_CENTER_AVAILABILITY } from './Query';
+import { FETCH_USER_VACCINE_DETAILS, FETCH_VACCINE_CENTER_AVAILABILITY, FETCH_VACCINE_CENTER_DATA_BY_AVAILABILITY_ID } from './Query';
 
 const LOG = new Logger('Transactions.js');
 
@@ -106,6 +106,30 @@ const fetchVaccineCenterAvailability = async (vaccineCenterId) => {
     throw new ErrorMiddleware(ErrorCodes.DB_ERROR, ErrorMessages.DB_ERROR, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }
+
+const fetchUserVaccineDetails = async (nic) => {
+  LOG.info(`[REPOSITORY] Going to fetch vaccine booking status for: ${nic}`);
+  try { 
+    const vaccineBookingStatus = await sequelize.query(FETCH_USER_VACCINE_DETAILS,
+      { replacements: { nic }, type: sequelize.QueryTypes.SELECT });
+    return vaccineBookingStatus;
+  } catch (error) {
+    LOG.error('[REPOSITORY] Error occurred in fetch vaccine availability', error);
+    throw new ErrorMiddleware(ErrorCodes.DB_ERROR, ErrorMessages.DB_ERROR, StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}
+
+const fetchVaccineCenterAvailabilityByAvailabilityId = async (availabilityId) => {
+  LOG.info(`[REPOSITORY] Going to fetch vaccine center availability for: ${availabilityId}`);
+  try { 
+    const vaccineCenterAvailabilityDetails = await sequelize.query(FETCH_VACCINE_CENTER_DATA_BY_AVAILABILITY_ID,
+      { replacements: { availabilityId }, type: sequelize.QueryTypes.SELECT });
+    return vaccineCenterAvailabilityDetails;
+  } catch (error) {
+    LOG.error('[REPOSITORY] Error occurred in fetch vaccine availability', error);
+    throw new ErrorMiddleware(ErrorCodes.DB_ERROR, ErrorMessages.DB_ERROR, StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}
   
 
 
@@ -118,4 +142,6 @@ export default {
   bulkInsertDataByColumns,
   findAllByCondition,
   fetchVaccineCenterAvailability,
+  fetchUserVaccineDetails,
+  fetchVaccineCenterAvailabilityByAvailabilityId,
 };

@@ -22,13 +22,13 @@ const globalErrorHandler = (err, req, res, next) => {
       errorCode: error.getErrorCode(),
       message: error.getMessage()
     });
-  } else if (err && err.error && err.error.isJoi ) {
+  } else if (err && err.error && err.error.isJoi) {
     return res.status(StatusCodes.BAD_REQUEST).send({
       errorCode: ErrorCodes.VALIDATION_ERROR,
       message: err.error.toString(),
       type: err.type
     });
-  }else {
+  } else {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
       errorCode: ErrorCodes.RUNTIME_ERROR_CODE,
       message: 'Internal Server Error'

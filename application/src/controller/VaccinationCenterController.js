@@ -30,10 +30,22 @@ const getVaccineCenterAvailabilityHandler = async (req, res, next) => {
     })
 }
 
+const getVaccineCenterAvailabilityByIdHandler = async (req, res, next) => {
+  LOG.info('[ROUTER][USER]: request recieved for retrieve vaccine center list'); 
+  const { id } = req.params;
+  return VaccineCenterAvailabilityService.getVaccineCenterAvailabilityByAvailabilityId(id)
+    .then(result => res.status(StatusCodes.OK).send(result))
+    .catch(error => {
+      LOG.error(`[ROUTER][USER]: error occurred while retrieving vaccine center availability data: ${error.message}`);
+      return next(error)
+    })
+}
 
 VaccinationCenterController.get('/', getVaccineCenterListHandler);
 
 VaccinationCenterController.get('/availability', getVaccineCenterAvailabilityHandler);
+
+VaccinationCenterController.get('/availability/:id', getVaccineCenterAvailabilityByIdHandler);
 
   
 export default VaccinationCenterController;
